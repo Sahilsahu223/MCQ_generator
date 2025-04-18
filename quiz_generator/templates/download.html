@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quiz Application</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="{% static 'css/modern_dashboard_dark.css' %}" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Consolas', Monaco, monospace; /* Digital style font */
+            color: #d4d4d4; /* Light gray text for dark background */
+            background-color: #1e1e1e; /* Dark background */
+        }
+
+        header {
+            background-color: #2c2c2c; /* Dark header */
+            border-bottom: 1px solid #333;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #eee;
+            margin: 1rem auto;
+            padding: 1rem 2rem;
+            background-color: #33475b;
+            border-radius: 25px; /* Less extreme rounded corners */
+            font-family: 'Avenir', sans-serif; /* Keep Avenir if you like it */
+        }
+
+        .sidebar {
+            background-color: #252525; /* Darker sidebar */
+            border-right: 1px solid #333;
+        }
+
+        .sidebar .nav-link {
+            color: #b8b8b8;
+            transition: background-color 0.3s ease;
+            text-align: center; /* Keep text centered */
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: #333;
+            color: #5cb85c; /* Accent color */
+        }
+
+        .sidebar .nav-link .feather {
+            margin-right: 8px;
+            color: #777;
+        }
+
+        .sidebar .nav-link:hover .feather,
+        .sidebar .nav-link.active .feather {
+            color: #5cb85c;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        main h1 {
+            color: #eee;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #444;
+            padding-bottom: 10px;
+            border-radius: 0; /* Remove border radius for main heading */
+            background-color: transparent; /* Remove background color for main heading */
+            text-align: left; /* Align main heading to the left */
+            font-family: 'Consolas', Monaco, monospace; /* Digital font for main heading */
+        }
+
+        main ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        main li {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #2c2c2c;
+            border-radius: 5px;
+            border: 1px solid #333;
+        }
+
+        main li a {
+            color: #5bc0de; /* Cyan/blue link color */
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block; /* Make the whole list item clickable */
+        }
+
+        main li a:hover {
+            color: #46b8da;
+        }
+
+        footer {
+            background-color: #2c2c2c;
+            color: #a9a9a9;
+            padding: 15px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="py-3 shadow-sm">
+        <h1 class="mb-0">MCQ Quiz Generation</h1>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/">
+                                <span data-feather="plus-circle" class="align-text-bottom"></span>
+                                Questions Generator
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/history">
+                                <span data-feather="file-text" class="align-text-bottom"></span>
+                                My Quiz
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <h1>Download Quiz</h1>
+                <ul>
+                    {% for test in data %}
+                    <li>
+                        <a href="/download/{{ test.0 }}" class="test-header">{{ test.1 }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </main>
+        </div>
+    </div>
+
+    <footer class="py-3 mt-4">
+        <div class="container text-center">
+            <span>&copy; 2025 Quiz Application - Digital Edition</span>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        feather.replace(); // Initialize Feather Icons
+    </script>
+</body>
+</html>

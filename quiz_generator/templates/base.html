@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quiz Application</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="{% static 'css/modern_dashboard_dark.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/quiz_style.css' %}">
+    <style>
+        body {
+            font-family: 'Consolas', Monaco, monospace; /* Digital style font */
+            color: #d4d4d4; /* Light gray text for dark background */
+            background-color: #1e1e1e; /* Dark background */
+        }
+
+        .sidebar {
+            background-color: #252525; /* Darker sidebar */
+            border-right: 1px solid #333;
+        }
+
+        .sidebar .nav-link {
+            color: #b8b8b8;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: #333;
+            color: #5cb85c; /* Accent color */
+        }
+
+        .sidebar .nav-link .feather {
+            margin-right: 8px;
+            color: #777;
+        }
+
+        .sidebar .nav-link:hover .feather,
+        .sidebar .nav-link.active .feather {
+            color: #5cb85c;
+        }
+
+        header {
+            background-color: #2c2c2c; /* Dark header */
+            border-bottom: 1px solid #333;
+        }
+
+        h2 {
+            color: #eee;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #444;
+        }
+
+        .create-quiz-section,
+        .questions-generator-section {
+            background-color: #252525; /* Dark section background */
+            padding: 30px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            border: 1px solid #333;
+        }
+
+        .create-quiz-section h1,
+        .questions-generator-section h1 {
+            color: #eee;
+            margin-bottom: 25px;
+        }
+
+        .create-quiz-section textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #333;
+            color: #d4d4d4;
+        }
+
+        .create-quiz-section textarea:focus {
+            border-color: #5cb85c;
+            outline: none;
+            box-shadow: 0 0 5px rgba(92, 184, 92, 0.5);
+        }
+
+        .create-quiz-section button[type="submit"] {
+            background-color: #5cb85c; /* Green accent button */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .create-quiz-section button[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+
+        .create-quiz-section h2 {
+            margin-top: 25px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #444;
+            color: #eee;
+        }
+
+        .create-quiz-section pre {
+            background-color: #333;
+            padding: 15px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-size: 16px;
+            font-family: 'Consolas', Monaco, monospace; /* Digital style for output */
+            color: #a9a9a9;
+        }
+
+        footer {
+            background-color: #2c2c2c;
+            color: #a9a9a9;
+            padding: 15px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <header class="py-3 shadow-sm">
+        <div class="container d-flex justify-content-center align-items-center">
+            <h2 class="mb-0">MCQ Quiz Generation</h2>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="">
+                                <span data-feather="plus-circle" class="align-text-bottom"></span>
+                                Create Quiz
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/history">
+                                <span data-feather="cpu" class="align-text-bottom"></span>
+                                My Questions
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="create-quiz-section">
+                    {% block content %}
+                    <h1>Create a Quiz</h1>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <textarea name="text" rows="7" placeholder="Enter the text for question generation..."></textarea>
+                        <br>
+                        <button type="submit" class="btn btn-success">Generate Questions</button>
+                    </form>
+                    {% if questions %}
+                    <h2 class="mt-4">Generated Questions:</h2>
+                    <pre>{{ questions|linebreaks }}</pre>
+                    {% endif %}
+                    {% endblock %}
+                </div>
+
+                {% if not questions %}
+                <div class="questions-generator-section">
+                    <h1>Questions Generator</h1>
+                    <p>Explore advanced options for generating your quizzes here.</p>
+                </div>
+                {% endif %}
+            </main>
+        </div>
+    </div>
+
+    <footer class="py-3 mt-4">
+        <div class="container text-center">
+            <span>&copy; 2025 Quiz Application - Digital Edition</span>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        feather.replace(); // Initialize Feather Icons
+    </script>
+</body>
+</html>
