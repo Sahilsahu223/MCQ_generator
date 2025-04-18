@@ -1,4 +1,4 @@
-## Django MCQ Generator with Gemini API
+## Django Quiz Generator with Gemini API
 
 This project is a Django web application that uses the Google Gemini API (specifically the `gemini-2.0-flash-exp` model) to generate Multiple Choice Questions (MCQs) from user-provided text.  It includes two HTML pages: one for generating questions and another for viewing/downloading previously generated quizzes.
 
